@@ -1,9 +1,10 @@
 public class Node {
-    protected String value;
+    protected int value;
     protected Node left;
     protected Node right;
-     Node(String value){
+    public Node(int value, Node left, Node right){
         this.value = value;
-        left = right = null;
+        this.left = left;
+        this.right = right;
     }
 }
