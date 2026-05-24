@@ -1,7 +1,7 @@
-public abstract class Binary_Search_Tree {
-    protected Node root;
+public abstract class Binary_Search_Tree<T extends Node<T>> {
+    protected T root;
 
-    public Node search(Node node, int target){
+    public T search(T node, int target){
         node = root;
         while (node != null && target != node.value) {
             if (target < node.value) {
@@ -13,7 +13,7 @@ public abstract class Binary_Search_Tree {
         return node;
     }
 
-    public abstract Node insert(Node node, int key);
+    public abstract T insert(T node, int key);
     public abstract void delete(int key);
 
 }
