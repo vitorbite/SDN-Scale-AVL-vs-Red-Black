@@ -14,7 +14,7 @@ public abstract class Binary_Search_Tree<T extends Node<T>> {
     }
 
     public abstract T insert(T node, int key);
-    public abstract void delete(int key);
+    public abstract T delete(T node, int key);
 
 }
 
