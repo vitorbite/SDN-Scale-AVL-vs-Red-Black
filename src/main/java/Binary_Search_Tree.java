@@ -3,8 +3,8 @@ public abstract class Binary_Search_Tree<T extends Node<T>> {
 
     public T search(T node, int target){
         node = root;
-        while (node != null && target != node.value) {
-            if (target < node.value) {
+        while (node != null && target != node.rule.getId()) {
+            if (target < node.rule.getId()) {
                 node = node.left;
             }else{
                 node = node.right;
@@ -13,8 +13,8 @@ public abstract class Binary_Search_Tree<T extends Node<T>> {
         return node;
     }
 
-    public abstract T insert(T node, int key);
-    public abstract T delete(T node, int key);
+    public abstract T insert(T node, PacketRule rule);
+    public abstract T delete(T node, PacketRule rule);
 
 }
 

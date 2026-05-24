@@ -1,9 +1,9 @@
 public class Node<T>{
-    protected int value;
+    protected PacketRule rule;
     protected T left;
     protected T right;
-    public Node(int value, T left, T right){
-        this.value = value;
+    public Node(PacketRule rule, T left, T right){
+        this.rule = rule;
         this.left = left;
         this.right = right;
     }

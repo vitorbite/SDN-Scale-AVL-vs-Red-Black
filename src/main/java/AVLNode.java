@@ -1,7 +1,7 @@
  final class AVLNode extends Node<AVLNode> {
         protected int height;
 
-        AVLNode(int element, AVLNode left, AVLNode right) {
+        AVLNode(PacketRule element, AVLNode left, AVLNode right) {
             super(element, left, right);
 
             height = 0;

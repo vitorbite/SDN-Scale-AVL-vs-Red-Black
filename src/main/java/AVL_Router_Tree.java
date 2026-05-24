@@ -21,14 +21,16 @@ public class AVL_Router_Tree extends Binary_Search_Tree<AVLNode> {
     }
 
     @Override
-    public AVLNode insert(AVLNode root, int value) {
+    public AVLNode insert(AVLNode root, PacketRule rule) {
         if (root == null) {
-            root = new AVLNode(value, null, null);
+            root = new AVLNode(rule, null, null);
         }
-        if (value < root.value) {
-            root.left = insert(root.left, value);
-        } else if (value > root.value) {
-            root.right = insert(root.right, value);
+        if (rule.getId() < root.rule.getId()) {
+            root.left = insert(root.left, rule);
+        } else if (rule.getId() > root.rule.getId()) {
+            root.right = insert(root.right, rule);
+        } else {
+           return null; // retorno para caso o ID for igual
         }
 
         root.height = 1 + Math.max(root.getHeight(root.left), root.getHeight(root.right));
@@ -36,29 +38,26 @@ public class AVL_Router_Tree extends Binary_Search_Tree<AVLNode> {
     }
 
     @Override
-    public AVLNode delete(AVLNode root, int id) {
-        if (root == null) return null;
-        if (id < root.value) {
-            root.left = delete(root.left, id);
-        } else if (id > root.value) {
-            root.right = delete(root.right, id);
+    public AVLNode delete(AVLNode root, PacketRule rule) {
+        if (root == null)
+            return null;
+        if (rule.getId() < root.rule.getId()) {
+            root.left = delete(root.left, rule);
+        } else if (rule.getId() > root.rule.getId()) {
+            root.right = delete(root.right, rule);
         } else {
 
-            if (root.left == null && root.right == null) {
+            if (root.left == null || root.right == null) {
                 AVLNode temp = (root.left != null) ? root.left : root.right;
-                if (temp == null) {
-                    root = null;
-                }else{
-                    root = temp;
-                }
-
-            }else{
+                root = temp;
+            } else {
                 AVLNode sucessor = findMin(root.right);
-                root.value = sucessor.value;
-                root.right = delete(root.right, sucessor.value);
+                root.rule = sucessor.rule;
+                root.right = delete(root.right, sucessor.rule);
             }
         }
-        if (root == null) return null;
+        if (root == null)
+            return null;
 
         root.height = 1 + Math.max(root.getHeight(root.left), root.getHeight(root.right));
         return Rebalance(root);
