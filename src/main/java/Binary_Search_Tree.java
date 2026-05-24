@@ -13,10 +13,8 @@ public abstract class Binary_Search_Tree {
         return node;
     }
 
-    public abstract void insert(int key);
+    public abstract Node insert(Node node, int key);
     public abstract void delete(int key);
 
-    protected void rotateLeft(Node node) {  }
-    protected void rotateRight(Node node) {  }
 }
 
