@@ -35,7 +35,7 @@ public class AVLInvariantTests {
                             i
                     );
 
-            root = tree.insert(root, rule);
+            root = tree.insert(tree.root, rule);
         }
 
         assertNotNull(root);
