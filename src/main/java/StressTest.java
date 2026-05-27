@@ -79,9 +79,19 @@ for (int i = 0; i < TOTAL_NODES; i++) {
 
         // Resultados
         System.out.println("= RESULTADOS AVL (em nanossegundos) =");
-        System.out.println("Inserção : " + avlInsertTime + " ns");
-        System.out.println("Busca :    " + avlSearchTime + " ns");
-        System.out.println("Deleção :   " + avlDeleteTime + " ns\n");
+        System.out.println("Inserção: " + avlInsertTime + " ns");
+        System.out.println("Busca:    " + avlSearchTime + " ns");
+        System.out.println("Deleção:   " + avlDeleteTime + " ns\n");
+
+        // Vou implementar quando a Red-Black tree estiver pronta, mas por enquanto deixo o código comentado para não causar confusão.
+        
+        /*
+        System.out.println("= RESULTADOS RED-BLACK (em nanossegundos) =");
+        System.out.println("Inserção: " + rbInsertTime + " ns");
+        System.out.println("Busca:    " + rbSearchTime + " ns");
+        System.out.println("Deleção:   " + rbDeleteTime + " ns\n");
+        */
+
         
         System.out.println("Benchmark concluído!");
     }
