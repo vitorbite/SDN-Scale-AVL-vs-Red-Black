@@ -30,7 +30,7 @@ public class AVL_Router_Tree extends Binary_Search_Tree<AVLNode> {
         } else if (rule.getId() > root.rule.getId()) {
             root.right = insert(root.right, rule);
         } else {
-           return null; // retorno para caso o ID for igual
+           return root; // retorno para caso o ID for igual
         }
 
         root.height = 1 + Math.max(root.getHeight(root.left), root.getHeight(root.right));
