@@ -23,8 +23,7 @@ public class AVL_Router_Tree extends Binary_Search_Tree<AVLNode> {
     @Override
     public AVLNode insert(AVLNode root, PacketRule rule) {
         if (root == null) {
-            this.root = new AVLNode(rule, null, null);
-            return root;
+            return new AVLNode(rule, null, null);
         }
         if (rule.getId() < root.rule.getId()) {
             root.left = insert(root.left, rule);
