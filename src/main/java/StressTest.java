@@ -2,12 +2,13 @@ import java.util.Random;
 
 public class StressTest {
 
-    // CUIDADO, ATENTECE AS OPÇÕES DE DEBUG ANTES DE RODAR O TESTE POIS A OPÇÃO DE DEBUG 
+    // CUIDADO, ATENTE-SE AS OPÇÕES DE DEBUG ANTES DE RODAR O TESTE POIS A OPÇÃO DE DEBUG 
     // PODE CAUSAR UM USO EXCESSIVO DE MEMÓRIA E FAZER O TESTE DEMORAR MUITO, ENTÃO RECOMENDO USAR
     //  A OPÇÃO "Launch StressTest Pouco Uso de Memória" PARA TESTES INICIAIS (DE 1-10 Milhões) E APENAS QUANDO
     //  VOCÊ ESTIVER PRONTO PARA O TESTE COMPLETO, USE A OPÇÃO "Launch StressTest Grande Uso de Memória" (11-40 Milhões).
     // Caso você tenha menos de 8GB de RAM Livre, não use a opção de "Grande Uso de Memória" ao inves disso
     // altere "-Xms512m -Xmx7680m -XX:+UseG1GC" em launch.json para um valor menor, como "-Xms512m -Xmx4096m -XX:+UseG1GC"
+    //  (Verifique sua memória RAM disponível antes de alterar qualquer valor).
     public static void main(String[] args) {
         int TOTAL_NODES = 40000000; //Atente-se as configurações de debug
         int DELETE_NODES = (int) (TOTAL_NODES * 0.20); // 20% dos nós
