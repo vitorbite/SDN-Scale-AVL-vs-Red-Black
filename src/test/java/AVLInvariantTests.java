@@ -41,4 +41,38 @@ public class AVLInvariantTests {
         assertNotNull(root);
         assertTrue(isBalanced(root),"A arvore AVL não está balanceada após as inserções sequenciais.");
     }
+
+    @Test
+    public void testSearchAfterInsertions() {
+
+        AVL_Router_Tree tree = new AVL_Router_Tree();
+        AVLNode root = null;
+
+        root = tree.insert(tree.root, new PacketRule(10,"A","B",1));
+        root = tree.insert(tree.root, new PacketRule(20,"A","B",1));
+        root = tree.insert(tree.root, new PacketRule(30,"A","B",1));
+
+        tree.root = root;
+        AVLNode found = tree.search(root, 20);
+
+        assertNotNull(found);
+        assertEquals(20, found.rule.getId());
+    }
+
+    @Test
+    public void testSingleInsertion() {
+
+        AVL_Router_Tree tree = new AVL_Router_Tree();
+
+        PacketRule rule =
+                new PacketRule(
+                        1,
+                        "192.168.0.1",
+                        "10.0.0.1",
+                        1
+                );
+
+        tree.insert(tree.root, rule);
+        assertNotNull(tree.root);
+    }
 }
