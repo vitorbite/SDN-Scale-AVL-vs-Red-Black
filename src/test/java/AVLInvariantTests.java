@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AVLInvariantTests {
 
     private boolean isBalanced(AVLNode node) {
-        
+
         if (node == null) {
             return true;
         }
@@ -35,7 +35,7 @@ public class AVLInvariantTests {
                             i
                     );
 
-            root = tree.insert(tree.root, rule);
+            root = tree.insert(root, rule);
         }
 
         assertNotNull(root);
@@ -48,11 +48,10 @@ public class AVLInvariantTests {
         AVL_Router_Tree tree = new AVL_Router_Tree();
         AVLNode root = null;
 
-        root = tree.insert(tree.root, new PacketRule(10,"A","B",1));
-        root = tree.insert(tree.root, new PacketRule(20,"A","B",1));
-        root = tree.insert(tree.root, new PacketRule(30,"A","B",1));
+        root = tree.insert(root, new PacketRule(10,"A","B",1));
+        root = tree.insert(root, new PacketRule(20,"A","B",1));
+        root = tree.insert(root, new PacketRule(30,"A","B",1));
 
-        tree.root = root;
         AVLNode found = tree.search(root, 20);
 
         assertNotNull(found);
@@ -63,6 +62,7 @@ public class AVLInvariantTests {
     public void testSingleInsertion() {
 
         AVL_Router_Tree tree = new AVL_Router_Tree();
+        AVLNode root = null;
 
         PacketRule rule =
                 new PacketRule(
@@ -72,7 +72,7 @@ public class AVLInvariantTests {
                         1
                 );
 
-        tree.insert(tree.root, rule);
-        assertNotNull(tree.root);
+        root = tree.insert(root, rule);
+        assertNotNull(root);
     }
 }
