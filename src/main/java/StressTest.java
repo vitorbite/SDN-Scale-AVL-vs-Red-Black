@@ -57,16 +57,18 @@ public class StressTest {
         */
 
         // Segundo teste: Busca
-        long avlSearchTime = System.nanoTime();
-for (int i = 0; i < TOTAL_NODES; i++) {
-    rootAVL = avlTree.insert(rootAVL, rules[i]);
-    
-    // Imprime o tempo a cada 100.000 inserções para você colocar no gráfico
-    if ((i + 1) % 100000 == 0) {
-        long partialTime = System.nanoTime() - avlSearchTime;
-        System.out.println("Tempo até " + (i + 1) + " inserções: " + partialTime + " ns");
-    }
-}
+        long startAVLSearch = System.nanoTime();
+        for (int i = 0; i < TOTAL_NODES; i++) {
+            avlTree.search(rootAVL, rules[i].getId());
+
+            // Imprime o tempo a cada 100.000 buscas para você colocar no gráfico
+            if ((i + 1) % 100000 == 0) {
+                long partialTime = System.nanoTime() - startAVLSearch;
+                System.out.println("Tempo até " + (i + 1) + " buscas: " + partialTime + " ns");
+            }
+        }
+        long endAVLSearch = System.nanoTime();
+        long avlSearchTime = endAVLSearch - startAVLSearch;
 
         // Terceiro teste: Exclusão
         long startAVLDelete = System.nanoTime();
@@ -83,7 +85,8 @@ for (int i = 0; i < TOTAL_NODES; i++) {
         System.out.println("Busca:    " + avlSearchTime + " ns");
         System.out.println("Deleção:   " + avlDeleteTime + " ns\n");
 
-        // Vou implementar quando a Red-Black tree estiver pronta, mas por enquanto deixo o código comentado para não causar confusão.
+        // Vou implementar quando a Red-Black tree estiver pronta, mas por enquanto deixo o código
+        //  comentado para não causar confusão e ficar mais fácil na hora de implementar a comparação final.
         
         /*
         System.out.println("= RESULTADOS RED-BLACK (em nanossegundos) =");
@@ -92,7 +95,44 @@ for (int i = 0; i < TOTAL_NODES; i++) {
         System.out.println("Deleção:   " + rbDeleteTime + " ns\n");
         */
 
+
+    // Comparação entre Red-Black e AVL
+  
+/*
+        System.out.println("=== ANÁLISE COMPARATIVA FINAL ===");
         
+        // Calculando as diferenças absolutas
+        long diffInsercao = Math.abs(avlInsertTime - rbInsertTime);
+        long diffBusca = Math.abs(avlSearchTime - rbSearchTime);
+        long diffDelecao = Math.abs(avlDeleteTime - rbDeleteTime);
+
+
+        // Inserção: Ganhadora?
+        if (avlInsertTime < rbInsertTime) {
+            System.out.println("Vencedora na Inserção: AVL (Foi " + diffInsercao + " ns mais rápida)");
+        } else {
+            System.out.println("Vencedora na Inserção: Red-Black (Foi " + diffInsercao + " ns mais rápida)");
+        }
+
+
+        // Busca: Ganhadora?
+        if (avlSearchTime < rbSearchTime) {
+            System.out.println("Vencedora na Busca: AVL (Foi " + diffBusca + " ns mais rápida)");
+        } else {
+            System.out.println("Vencedora na Busca: Red-Black (Foi " + diffBusca + " ns mais rápida)");
+        }
+        
+        // Exclusão: Ganhadora?
+        if (avlDeleteTime < rbDeleteTime) {
+            System.out.println("Vencedora na Exclusão: AVL (Foi " + diffDelecao + " ns mais rápida)");
+        } else {
+            System.out.println("Vencedora na Exclusão: Red-Black (Foi " + diffDelecao + " ns mais rápida)");
+        }
+
+
+*/
+
+
         System.out.println("Benchmark concluído!");
     }
 }
