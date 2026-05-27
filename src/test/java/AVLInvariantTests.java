@@ -124,4 +124,18 @@ public class AVLInvariantTests {
         assertEquals(20, root.rule.getId());
         assertTrue(isBalanced(root));
     }
+
+    @Test
+    public void testDoubleLeftRightRotation() {
+
+        AVL_Router_Tree tree = new AVL_Router_Tree();
+        AVLNode root = null;
+
+        root = tree.insert(root, new PacketRule(30,"A","B",1));
+        root = tree.insert(root, new PacketRule(10,"A","B",1));
+        root = tree.insert(root, new PacketRule(20,"A","B",1));
+
+        assertEquals(20, root.rule.getId());
+        assertTrue(isBalanced(root));
+    }
 }
