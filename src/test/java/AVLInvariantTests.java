@@ -94,4 +94,20 @@ public class AVLInvariantTests {
         assertNull(found);
         assertTrue(isBalanced(root));
     }
+
+    @Test
+    public void testDuplicateInsertion() {
+
+        AVL_Router_Tree tree = new AVL_Router_Tree();
+        AVLNode root = null;
+
+        root = tree.insert(root, new PacketRule(10,"A","B",1));
+        root = tree.insert(root, new PacketRule(10,"A","B",1));
+
+        AVLNode found = tree.search(root, 10);
+
+        assertNotNull(found);
+        assertEquals(10, found.rule.getId());
+        assertTrue(isBalanced(root));
+    }
 }
