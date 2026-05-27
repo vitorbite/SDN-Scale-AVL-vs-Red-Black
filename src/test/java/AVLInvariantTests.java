@@ -75,4 +75,23 @@ public class AVLInvariantTests {
         root = tree.insert(root, rule);
         assertNotNull(root);
     }
+
+    @Test
+    public void testDeleteMaintainsBalance() {
+
+        AVL_Router_Tree tree = new AVL_Router_Tree();
+        AVLNode root = null;
+
+        root = tree.insert(root, new PacketRule(10,"A","B",1));
+        root = tree.insert(root, new PacketRule(20,"A","B",1));
+        root = tree.insert(root, new PacketRule(30,"A","B",1));
+        root = tree.insert(root, new PacketRule(40,"A","B",1));
+
+        root = tree.delete(root, new PacketRule(20,"A","B",1));
+
+        AVLNode found = tree.search(root, 20);
+
+        assertNull(found);
+        assertTrue(isBalanced(root));
+    }
 }
