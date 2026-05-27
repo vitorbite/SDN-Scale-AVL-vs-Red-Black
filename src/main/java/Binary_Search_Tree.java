@@ -2,7 +2,6 @@ public abstract class Binary_Search_Tree<T extends Node<T>> {
     protected T root;
 
     public T search(T node, int target){
-        node = root;
         while (node != null && target != node.rule.getId()) {
             if (target < node.rule.getId()) {
                 node = node.left;
