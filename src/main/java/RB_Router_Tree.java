@@ -157,7 +157,35 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
     }
 
     public void RB_Delete_Fixup(RB_Node node, RB_Node parent) {
+        RB_Node w;
+        if (parent == null) {
+            if (this.root != null) {
+                this.root.makeBlack();
+            }
+            return;
+        }
 
+        while (node != this.root && node.isRed() == false) {
+            if (node == node.parent.left) {
+                w = node.parent.right;
+                if (w.isRed()) {
+                    w.makeBlack();
+                    node.parent.makeRed();
+                    Left_Rotation(node.parent);
+                    w = node.parent.right;
+                }
+                if (w.left.isRed() == false && w.right.isRed() == false) {
+                    w.makeRed();
+                    node = node.parent;
+                }
+                else if (w.right.isRed() == false) {
+                    w.left.makeBlack();
+                    w.makeRed();
+                    Right_Rotation(node);
+                    w = node.parent.right;
+                }
+            }
+        }
     }
 
     private RB_Node findMin(RB_Node node) {
