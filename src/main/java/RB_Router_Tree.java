@@ -79,8 +79,86 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
 
     @Override
     public RB_Node delete(RB_Node node, PacketRule rule) {
-        return null;
+        RB_Node root = this.root;
+        while (root != null && root.rule.getId() != rule.getId()) {
+            if (rule.getId() < root.rule.getId()) {
+                root = root.left;
+            } else {
+                root = root.right;
+            }
+        }
+
+        if (root == null)
+            return null;
+
+        RB_Node noDeletado = root;
+
+        RB_Node y = root;
+        boolean yOriginalColorIsRed = y.isRed();
+        RB_Node x;
+
+        if (root.left == null) {
+            x = root.right; 
+            Transplant(root, root.right);
+        } else if (root.right == null) {
+            x = root.left; 
+            Transplant(root, root.left); 
+        } else { 
+            y = findMin(root.right);
+            yOriginalColorIsRed = y.isRed();
+            x = y.right;
+
+            if (y.parent == root) { 
+                if (x != null)
+                    x.parent = y;
+            } else {
+                Transplant(y, y.right);
+                y.right = root.right;
+                if (y.right != null)
+                    y.right.parent = y;
+            }
+
+            Transplant(root, y);
+            y.left = root.left;
+            if (y.left != null)
+                y.left.parent = y;
+
+            if (root.isRed())
+                y.makeRed();
+            else
+                y.makeBlack();
+        }
+        if (!yOriginalColorIsRed) {
+
+            RB_Delete_Fixup(x);
+        }
+        
+        return noDeletado;
     }
+
+    public void Transplant(RB_Node node, RB_Node v) {
+        if (node.parent == null) {
+            this.root = v;
+        } else if (node == node.parent.left) {
+            node.parent.left = v;
+        } else {
+            node.parent.right = v;
+        }
+        if (v != null) {
+            v.parent = node.parent;
+        }
+    }
+
+    public void RB_Delete_Fixup(RB_Node node){
+
+    }
+
+    private RB_Node findMin(RB_Node node) {
+    while (node.left != null) {
+        node = node.left;
+    }
+    return node;
+}
 
     public void Left_Rotation(RB_Node node) {
         RB_Node y = node.right;
