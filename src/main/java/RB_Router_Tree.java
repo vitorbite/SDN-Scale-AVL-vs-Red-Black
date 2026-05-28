@@ -158,6 +158,7 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
 
     public void RB_Delete_Fixup(RB_Node node, RB_Node parent) {
         RB_Node w;
+
         if (parent == null) {
             if (this.root != null) {
                 this.root.makeBlack();
@@ -165,26 +166,85 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
             return;
         }
 
-        while (node != this.root && node.isRed() == false) {
-            if (node == node.parent.left) {
-                w = node.parent.right;
-                if (w.isRed()) {
+        while (node != this.root && (node == null || node.isBlack())) {
+            if (node == parent.left) {
+                w = parent.right;
+
+                if (w != null && w.isRed()) {
                     w.makeBlack();
-                    node.parent.makeRed();
-                    Left_Rotation(node.parent);
-                    w = node.parent.right;
+                    parent.makeRed();
+                    Left_Rotation(parent);
+                    w = parent.right;
                 }
-                if (w.left.isRed() == false && w.right.isRed() == false) {
+                if (w.left.isBlack() && w.right.isBlack()) {
                     w.makeRed();
-                    node = node.parent;
+                    node = parent;
+                    parent = node.parent;
+                } else {
+                    if (w.right.isBlack()) {
+                        if (w.left != null) {
+                            w.left.makeBlack();
+                        }
+                        w.makeRed();
+                        Right_Rotation(node);
+                        w = parent.right;
+                    }
+
+                    if (parent.isRed()) {
+                        w.makeRed();
+                    } else {
+                        w.makeBlack();
+                    }
+                    parent.makeBlack();
+                    if (w.right != null) {
+                        w.right.makeBlack();
+                    }
+                    Left_Rotation(parent);
+
+                    node = this.root;
                 }
-                else if (w.right.isRed() == false) {
-                    w.left.makeBlack();
+            } else {
+                w = parent.left;
+
+                if (w != null && w.isRed()) {
+                    w.makeBlack();
+                    parent.makeRed();
+                    Right_Rotation(parent);
+                    w = parent.left;
+                }
+                if (w.left.isBlack() && w.right.isBlack()) {
                     w.makeRed();
-                    Right_Rotation(node);
-                    w = node.parent.right;
+                    node = parent;
+                    parent = node.parent;
+                } else {
+
+                    if (w.left.isBlack()) {
+                        if (w.right != null) {
+                            w.right.makeBlack();
+                        }
+                        w.makeRed();
+                        Left_Rotation(node);
+                        w = parent.left;
+                    }
+
+                    if (parent.isRed()) {
+                        w.makeRed();
+                    } else {
+                        w.makeBlack();
+                    }
+                    parent.makeBlack();
+
+                    if (w.left != null) {
+                        w.left.makeBlack();
+                    }
+                    Right_Rotation(parent);
+
+                    node = this.root;
                 }
             }
+        }
+        if (node != null) {
+            node.makeBlack();
         }
     }
 
