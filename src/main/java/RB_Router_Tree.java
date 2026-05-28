@@ -96,22 +96,27 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
         RB_Node y = root;
         boolean yOriginalColorIsRed = y.isRed();
         RB_Node x;
+        RB_Node xParent;
 
         if (root.left == null) {
-            x = root.right; 
+            x = root.right;
+            xParent = root.parent;
             Transplant(root, root.right);
         } else if (root.right == null) {
-            x = root.left; 
-            Transplant(root, root.left); 
-        } else { 
+            x = root.left;
+            xParent = root.parent;
+            Transplant(root, root.left);
+        } else {
             y = findMin(root.right);
             yOriginalColorIsRed = y.isRed();
             x = y.right;
 
-            if (y.parent == root) { 
+            if (y.parent == root) {
+                xParent = y;
                 if (x != null)
                     x.parent = y;
             } else {
+                xParent = y.parent;
                 Transplant(y, y.right);
                 y.right = root.right;
                 if (y.right != null)
@@ -120,19 +125,21 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
 
             Transplant(root, y);
             y.left = root.left;
-            if (y.left != null)
+            if (y.left != null) {
                 y.left.parent = y;
-
-            if (root.isRed())
+            }
+            if (root.isRed()) {
                 y.makeRed();
-            else
+            } else {
                 y.makeBlack();
+            }
         }
+
         if (!yOriginalColorIsRed) {
 
-            RB_Delete_Fixup(x);
+            RB_Delete_Fixup(x, xParent);
         }
-        
+
         return noDeletado;
     }
 
@@ -149,16 +156,16 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
         }
     }
 
-    public void RB_Delete_Fixup(RB_Node node){
+    public void RB_Delete_Fixup(RB_Node node, RB_Node parent) {
 
     }
 
     private RB_Node findMin(RB_Node node) {
-    while (node.left != null) {
-        node = node.left;
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node;
     }
-    return node;
-}
 
     public void Left_Rotation(RB_Node node) {
         RB_Node y = node.right;
