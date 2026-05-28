@@ -186,7 +186,7 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
                             w.left.makeBlack();
                         }
                         w.makeRed();
-                        Right_Rotation(node);
+                        Right_Rotation(w);
                         w = parent.right;
                     }
 
@@ -223,7 +223,7 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
                             w.right.makeBlack();
                         }
                         w.makeRed();
-                        Left_Rotation(node);
+                        Left_Rotation(w);
                         w = parent.left;
                     }
 
