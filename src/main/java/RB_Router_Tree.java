@@ -74,7 +74,7 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
         newNode.makeRed();
 
         RB_Insert_Fixup(newNode);
-        return newNode;
+        return this.root;
     }
 
     @Override
@@ -176,12 +176,12 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
                     Left_Rotation(parent);
                     w = parent.right;
                 }
-                if (w.left.isBlack() && w.right.isBlack()) {
+                if ((w.left == null || w.left.isBlack()) && (w.right == null || w.right.isBlack())) {
                     w.makeRed();
                     node = parent;
                     parent = node.parent;
                 } else {
-                    if (w.right.isBlack()) {
+                    if (w.right == null || w.right.isBlack()) {
                         if (w.left != null) {
                             w.left.makeBlack();
                         }
@@ -212,13 +212,13 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
                     Right_Rotation(parent);
                     w = parent.left;
                 }
-                if (w.left.isBlack() && w.right.isBlack()) {
+                if ((w.left == null || w.left.isBlack()) && (w.right == null || w.right.isBlack())) {
                     w.makeRed();
                     node = parent;
                     parent = node.parent;
                 } else {
 
-                    if (w.left.isBlack()) {
+                    if (w.left == null || w.left.isBlack()) {
                         if (w.right != null) {
                             w.right.makeBlack();
                         }
