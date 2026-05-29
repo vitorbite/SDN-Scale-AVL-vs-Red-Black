@@ -10,7 +10,7 @@ public class StressTest {
     // altere "-Xms512m -Xmx7680m -XX:+UseG1GC" em launch.json para um valor menor, como "-Xms512m -Xmx4096m -XX:+UseG1GC"
     //  (Verifique sua memória RAM disponível antes de alterar qualquer valor).
     public static void main(String[] args) {
-        int TOTAL_NODES = 40000000; //Atente-se as configurações de debug
+        int TOTAL_NODES = 100000; //Atente-se as configurações de debug
         int DELETE_NODES = (int) (TOTAL_NODES * 0.20); // 20% dos nós
         
         System.out.println("Preparando " + TOTAL_NODES + " PacketRules...");
@@ -41,105 +41,144 @@ public class StressTest {
 
 
         // Instanciando as árvores
-        AVL_Router_Tree avlTree = new AVL_Router_Tree();
         
+        AVL_Router_Tree avlTree = new AVL_Router_Tree();
         AVLNode rootAVL = null;
-        // RedBlackNode rootRB = null; (quando a implementação estiver pronta eu tiro o comentário)
+        
+
+        
+        RB_Router_Tree rbTree = new RB_Router_Tree();
+        RB_Node rootRB = null;
+        
 
         // Primeiro teste: Inserção
+       
+        
         long startAVLInsert = System.nanoTime();
         for (int i = 0; i < TOTAL_NODES; i++) {
             rootAVL = avlTree.insert(rootAVL, rules[i]);
         }
         long endAVLInsert = System.nanoTime();
         long avlInsertTime = endAVLInsert - startAVLInsert;
-        // quando a implementação estiver pronta eu tiro o comentário) 
-        /*
+        
+        
         long startRBInsert = System.nanoTime();
         for (int i = 0; i < TOTAL_NODES; i++) {
             rootRB = rbTree.insert(rootRB, rules[i]);
         }
         long endRBInsert = System.nanoTime();
         long rbInsertTime = endRBInsert - startRBInsert;
-        */
-
+        
+        
+       
+       
         // Segundo teste: Busca
+
+        
         long startAVLSearch = System.nanoTime();
         for (int i = 0; i < TOTAL_NODES; i++) {
             avlTree.search(rootAVL, rules[i].getId());
-
+            
             // Imprime o tempo a cada 100.000 buscas para você colocar no gráfico
             if ((i + 1) % 100000 == 0) {
                 long partialTime = System.nanoTime() - startAVLSearch;
-                System.out.println("Tempo até " + (i + 1) + " buscas: " + partialTime + " ns");
+                System.out.println("Tempo até " + (i + 1) + " buscas AVL: " + partialTime + " ns");
             }
         }
         long endAVLSearch = System.nanoTime();
         long avlSearchTime = endAVLSearch - startAVLSearch;
+        
+
+        
+        long startRBSearch = System.nanoTime();
+        for (int i = 0; i < TOTAL_NODES; i++) {
+            rbTree.search(rootRB, rules[i].getId());
+            
+            if ((i + 1) % 100000 == 0) {
+                long partialTime = System.nanoTime() - startRBSearch;
+                System.out.println("Tempo até " + (i + 1) + " buscas Red-Black: " + partialTime + " ns");
+            }
+        }
+        long endRBSearch = System.nanoTime();
+        long rbSearchTime = endRBSearch - startRBSearch;
+    
 
         // Terceiro teste: Exclusão
+
+        
         long startAVLDelete = System.nanoTime();
         for (int i = 0; i < DELETE_NODES; i++) {
-            rootAVL = avlTree.delete(rootAVL, rulesToDelete[i]);
+        rootAVL = avlTree.delete(rootAVL, rulesToDelete[i]);
         }
         long endAVLDelete = System.nanoTime();
         long avlDeleteTime = endAVLDelete - startAVLDelete;
+        
 
+        
+        long startRBDelete = System.nanoTime();
+        for (int i = 0; i < DELETE_NODES; i++) {
+            rootRB = rbTree.delete(rootRB, rulesToDelete[i]);
+        }
+        long endRBDelete = System.nanoTime();
+        long rbDeleteTime = endRBDelete - startRBDelete;
+        
 
-        // Resultados
+        // Resultados AVL
+        
         System.out.println("= RESULTADOS AVL (em nanossegundos) =");
         System.out.println("Inserção: " + avlInsertTime + " ns");
         System.out.println("Busca:    " + avlSearchTime + " ns");
-        System.out.println("Deleção:   " + avlDeleteTime + " ns\n");
-
-        // Vou implementar quando a Red-Black tree estiver pronta, mas por enquanto deixo o código
-        //  comentado para não causar confusão e ficar mais fácil na hora de implementar a comparação final.
+        System.out.println("Deleção:   " + avlDeleteTime + " ns");
+        System.out.println("Soma total AVL: " + (avlInsertTime + avlSearchTime + avlDeleteTime) + " ns\n");
         
-        /*
+
+        // Resultados Red-Black
+        
         System.out.println("= RESULTADOS RED-BLACK (em nanossegundos) =");
         System.out.println("Inserção: " + rbInsertTime + " ns");
         System.out.println("Busca:    " + rbSearchTime + " ns");
         System.out.println("Deleção:   " + rbDeleteTime + " ns\n");
-        */
+        System.out.println("Soma total Red-Black: " + (rbInsertTime + rbSearchTime + rbDeleteTime) + " ns\n");
+        
+        // Comparação entre Red-Black e AVL
+        
 
-
-    // Comparação entre Red-Black e AVL
-  
-/*
         System.out.println("=== ANÁLISE COMPARATIVA FINAL ===");
         
         // Calculando as diferenças absolutas
+        
         long diffInsercao = Math.abs(avlInsertTime - rbInsertTime);
         long diffBusca = Math.abs(avlSearchTime - rbSearchTime);
         long diffDelecao = Math.abs(avlDeleteTime - rbDeleteTime);
-
-
+        
+        
         // Inserção: Ganhadora?
         if (avlInsertTime < rbInsertTime) {
             System.out.println("Vencedora na Inserção: AVL (Foi " + diffInsercao + " ns mais rápida)");
         } else {
             System.out.println("Vencedora na Inserção: Red-Black (Foi " + diffInsercao + " ns mais rápida)");
-        }
-
-
-        // Busca: Ganhadora?
-        if (avlSearchTime < rbSearchTime) {
-            System.out.println("Vencedora na Busca: AVL (Foi " + diffBusca + " ns mais rápida)");
-        } else {
-            System.out.println("Vencedora na Busca: Red-Black (Foi " + diffBusca + " ns mais rápida)");
-        }
-        
-        // Exclusão: Ganhadora?
-        if (avlDeleteTime < rbDeleteTime) {
-            System.out.println("Vencedora na Exclusão: AVL (Foi " + diffDelecao + " ns mais rápida)");
-        } else {
-            System.out.println("Vencedora na Exclusão: Red-Black (Foi " + diffDelecao + " ns mais rápida)");
-        }
-
-
-*/
-
-
-        System.out.println("Benchmark concluído!");
     }
+    
+    
+    // Busca: Ganhadora?
+    if (avlSearchTime < rbSearchTime) {
+        System.out.println("Vencedora na Busca: AVL (Foi " + diffBusca + " ns mais rápida)");
+    } else {
+        System.out.println("Vencedora na Busca: Red-Black (Foi " + diffBusca + " ns mais rápida)");
+}
+
+// Exclusão: Ganhadora?
+if (avlDeleteTime < rbDeleteTime) {
+    System.out.println("Vencedora na Exclusão: AVL (Foi " + diffDelecao + " ns mais rápida)");
+} else {
+    System.out.println("Vencedora na Exclusão: Red-Black (Foi " + diffDelecao + " ns mais rápida)");
+}
+
+
+
+
+
+
+System.out.println("Benchmark concluído!");
+}
 }
