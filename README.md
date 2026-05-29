@@ -82,8 +82,9 @@ Regras principais:
 
 1. Todo nó é vermelho ou preto.
 2. A raiz é sempre preta.
-3. Nós vermelhos não podem possuir filhos vermelhos.
-4. Todos os caminhos da raiz até as folhas possuem a mesma quantidade de nós pretos.
+3. Todos os nós folha ou nulos são considerados pretos
+4. Nós vermelhos não podem possuir filhos vermelhos.
+5. Todos os caminhos da raiz até as folhas possuem a mesma quantidade de nós pretos.
 
 Operações implementadas:
 
