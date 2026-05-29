@@ -11,7 +11,7 @@ public class RB_Node extends Node<RB_Node>{
         return isRed;
     }
     public boolean isBlack(){
-        return this == null || !this.isRed();
+        return !this.isRed();
     }
     public void makeRed(){
         isRed = true;

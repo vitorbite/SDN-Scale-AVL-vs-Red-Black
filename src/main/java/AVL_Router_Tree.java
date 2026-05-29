@@ -30,7 +30,10 @@ public class AVL_Router_Tree extends Binary_Search_Tree<AVLNode> {
         } else if (rule.getId() > root.rule.getId()) {
             root.right = insert(root.right, rule);
         } else {
-           return root; // retorno para caso o ID for igual
+            root.rule.setPrioridade(rule.getPrioridade());
+            root.rule.setIpOrigem(rule.getIpOrigem());
+            root.rule.setIpDestino(rule.getIpDestino());
+            return root;
         }
 
         root.height = 1 + Math.max(root.getHeight(root.left), root.getHeight(root.right));
@@ -49,7 +52,11 @@ public class AVL_Router_Tree extends Binary_Search_Tree<AVLNode> {
 
             if (root.left == null || root.right == null) {
                 AVLNode temp = (root.left != null) ? root.left : root.right;
-                root = temp;
+                if (temp == null) {
+                    root = null;
+                } else {
+                    root = temp;
+                }
             } else {
                 AVLNode sucessor = findMin(root.right);
                 root.rule = sucessor.rule;
