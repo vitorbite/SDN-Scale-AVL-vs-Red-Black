@@ -83,4 +83,23 @@ public class RBInvariantTests {
         assertNotNull(found);
         assertEquals(20, found.rule.getId());
     }
+
+    @Test
+    public void testDeleteMaintainsProperties() {
+        RB_Router_Tree tree = new RB_Router_Tree();
+
+        tree.insert(tree.root, new PacketRule(10,"A","B",1));
+        tree.insert(tree.root, new PacketRule(20,"A","B",1));
+        tree.insert(tree.root, new PacketRule(30,"A","B",1));
+        tree.insert(tree.root, new PacketRule(40,"A","B",1));
+
+        tree.delete(tree.root, new PacketRule(20,"A","B",1));
+
+        RB_Node found = tree.search(tree.root, 20);
+
+        assertNull(found);
+        assertTrue(rootIsBlack(tree));
+        assertTrue(noRedRed(tree.root));
+        assertTrue(validBlackHeight(tree.root));
+    }
 }
