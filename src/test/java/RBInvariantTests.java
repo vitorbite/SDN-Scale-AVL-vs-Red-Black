@@ -36,4 +36,51 @@ public class RBInvariantTests {
     private boolean validBlackHeight(RB_Node node) {
         return blackHeight(node) != 0;
     }
+
+    @Test
+    public void testRootIsBlackAfterInsertions() {
+        RB_Router_Tree tree = new RB_Router_Tree();
+
+        tree.insert(tree.root, new PacketRule(10,"A","B",1));
+        tree.insert(tree.root, new PacketRule(20,"A","B",1));
+        tree.insert(tree.root, new PacketRule(30,"A","B",1));
+
+        assertTrue(rootIsBlack(tree));
+    }
+
+    @Test
+    public void testNoRedRedViolation() {
+        RB_Router_Tree tree = new RB_Router_Tree();
+
+        for (int i = 1; i <= 50; i++) {
+            tree.insert(tree.root, new PacketRule(i,"A","B",1));
+        }
+
+        assertTrue(noRedRed(tree.root));
+    }
+
+    @Test
+    public void testBlackHeightInvariant() {
+        RB_Router_Tree tree = new RB_Router_Tree();
+
+        for (int i = 1; i <= 50; i++) {
+            tree.insert(tree.root, new PacketRule(i,"A","B",1));
+        }
+
+        assertTrue(validBlackHeight(tree.root));
+    }
+
+    @Test
+    public void testSearchAfterInsertions() {
+        RB_Router_Tree tree = new RB_Router_Tree();
+
+        tree.insert(tree.root, new PacketRule(10,"A","B",1));
+        tree.insert(tree.root, new PacketRule(20,"A","B",1));
+        tree.insert(tree.root, new PacketRule(30,"A","B",1));
+
+        RB_Node found = tree.search(tree.root, 20);
+
+        assertNotNull(found);
+        assertEquals(20, found.rule.getId());
+    }
 }
