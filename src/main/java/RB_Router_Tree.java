@@ -55,7 +55,10 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
             } else if (newNode.rule.getId() > currentRoot.rule.getId()) {
                 currentRoot = currentRoot.right;
             } else {
-                return currentRoot;
+                currentRoot.rule.setPrioridade(rule.getPrioridade());
+                currentRoot.rule.setIpOrigem(rule.getIpOrigem());
+                currentRoot.rule.setIpDestino(rule.getIpDestino());
+                return this.root;
             }
         }
 
@@ -89,9 +92,7 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
         }
 
         if (root == null)
-            return null;
-
-        RB_Node noDeletado = root;
+            return this.root;
 
         RB_Node y = root;
         boolean yOriginalColorIsRed = y.isRed();
@@ -140,7 +141,7 @@ public class RB_Router_Tree extends Binary_Search_Tree<RB_Node> {
             RB_Delete_Fixup(x, xParent);
         }
 
-        return noDeletado;
+        return this.root;
     }
 
     public void Transplant(RB_Node node, RB_Node v) {

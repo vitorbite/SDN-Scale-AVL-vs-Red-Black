@@ -138,4 +138,19 @@ public class AVLInvariantTests {
         assertEquals(20, root.rule.getId());
         assertTrue(isBalanced(root));
     }
+
+    @Test
+    public void testUpdateExistingRule() {
+        AVL_Router_Tree tree = new AVL_Router_Tree();
+        AVLNode root = null;
+
+        root = tree.insert(root, new PacketRule(10,"A","B",1));
+        root = tree.insert(root, new PacketRule(10,"C","D",5));
+
+        AVLNode found = tree.search(root,10);
+
+        assertEquals("C", found.rule.getIpOrigem());
+        assertEquals("D", found.rule.getIpDestino());
+        assertEquals(5, found.rule.getPrioridade());
+    }
 }

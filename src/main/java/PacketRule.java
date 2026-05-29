@@ -22,4 +22,13 @@ public class PacketRule {
     public int getPrioridade() {
         return prioridade;
     }
+    public void setIpDestino(String ipDestino) {
+        this.ipDestino = ipDestino;
+    }
+    public void setIpOrigem(String ipOrigem) {
+        this.ipOrigem = ipOrigem;
+    }
+    public void setPrioridade(int prioridade) {
+        this.prioridade = prioridade;
+    }
 }
