@@ -102,4 +102,17 @@ public class RBInvariantTests {
         assertTrue(noRedRed(tree.root));
         assertTrue(validBlackHeight(tree.root));
     }
+
+    @Test
+    public void testDuplicateInsertion() {
+        RB_Router_Tree tree = new RB_Router_Tree();
+
+        tree.insert(tree.root, new PacketRule(10,"A","B",1));
+        tree.insert(tree.root, new PacketRule(10,"A","B",1));
+
+        RB_Node found = tree.search(tree.root, 10);
+
+        assertNotNull(found);
+        assertEquals(10, found.rule.getId());
+    }
 }
