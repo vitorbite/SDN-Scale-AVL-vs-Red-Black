@@ -10,7 +10,7 @@ public class StressTest {
     // altere "-Xms512m -Xmx7680m -XX:+UseG1GC" em launch.json para um valor menor, como "-Xms512m -Xmx4096m -XX:+UseG1GC"
     //  (Verifique sua memória RAM disponível antes de alterar qualquer valor).
     public static void main(String[] args) {
-        int TOTAL_NODES = 100000; //Atente-se as configurações de debug
+        int TOTAL_NODES = 1000000; //Atente-se as configurações de debug
         int DELETE_NODES = (int) (TOTAL_NODES * 0.20); // 20% dos nós
         
         System.out.println("Preparando " + TOTAL_NODES + " PacketRules...");
@@ -72,17 +72,29 @@ public class StressTest {
         
        
        
-        // Segundo teste: Busca
+        // Segundo teste: Busca com Decisão do Controlador SDN
 
         
         long startAVLSearch = System.nanoTime();
-        for (int i = 0; i < TOTAL_NODES; i++) {
-            avlTree.search(rootAVL, rules[i].getId());
+        for (int i = 0; i < TOTAL_NODES - 1; i++) {
+            // Busca duas regras concorrentes na árvore AVL
+            AVLNode noA = avlTree.search(rootAVL, rules[i].getId());
+            AVLNode noB = avlTree.search(rootAVL, rules[i + 1].getId());
+            
+            // LÓGICA DO CONTROLADOR MISTURADA: Decisão por prioridade
+            if (noA != null && noB != null) {
+                PacketRule regraEscolhida;
+                if (noA.rule.getPrioridade() >= noB.rule.getPrioridade()) {
+                    regraEscolhida = noA.rule;
+                } else {
+                    regraEscolhida = noB.rule;
+                }
+            }
             
             // Imprime o tempo a cada 100.000 buscas para você colocar no gráfico
             if ((i + 1) % 100000 == 0) {
                 long partialTime = System.nanoTime() - startAVLSearch;
-                System.out.println("Tempo até " + (i + 1) + " buscas AVL: " + partialTime + " ns");
+                System.out.println("Tempo até " + (i + 1) + " buscas + decisões AVL: " + partialTime + " ns");
             }
         }
         long endAVLSearch = System.nanoTime();
@@ -91,12 +103,24 @@ public class StressTest {
 
         
         long startRBSearch = System.nanoTime();
-        for (int i = 0; i < TOTAL_NODES; i++) {
-            rbTree.search(rootRB, rules[i].getId());
+        for (int i = 0; i < TOTAL_NODES - 1; i++) {
+            // Busca duas regras concorrentes na árvore Rubro-Negra
+            RB_Node noA = rbTree.search(rootRB, rules[i].getId());
+            RB_Node noB = rbTree.search(rootRB, rules[i + 1].getId());
+            
+            // LÓGICA DO CONTROLADOR MISTURADA: Decisão por prioridade
+            if (noA != null && noB != null) {
+                PacketRule regraEscolhida;
+                if (noA.rule.getPrioridade() >= noB.rule.getPrioridade()) {
+                    regraEscolhida = noA.rule;
+                } else {
+                    regraEscolhida = noB.rule;
+                }
+            }
             
             if ((i + 1) % 100000 == 0) {
                 long partialTime = System.nanoTime() - startRBSearch;
-                System.out.println("Tempo até " + (i + 1) + " buscas Red-Black: " + partialTime + " ns");
+                System.out.println("Tempo até " + (i + 1) + " buscas + decisões Red-Black: " + partialTime + " ns");
             }
         }
         long endRBSearch = System.nanoTime();
@@ -137,7 +161,7 @@ public class StressTest {
         System.out.println("= RESULTADOS RED-BLACK (em nanossegundos) =");
         System.out.println("Inserção: " + rbInsertTime + " ns");
         System.out.println("Busca:    " + rbSearchTime + " ns");
-        System.out.println("Deleção:   " + rbDeleteTime + " ns\n");
+        System.out.println("Deleção:   " + rbDeleteTime + " ns");
         System.out.println("Soma total Red-Black: " + (rbInsertTime + rbSearchTime + rbDeleteTime) + " ns\n");
         
         // Comparação entre Red-Black e AVL
@@ -173,10 +197,6 @@ if (avlDeleteTime < rbDeleteTime) {
 } else {
     System.out.println("Vencedora na Exclusão: Red-Black (Foi " + diffDelecao + " ns mais rápida)");
 }
-
-
-
-
 
 
 System.out.println("Benchmark concluído!");
